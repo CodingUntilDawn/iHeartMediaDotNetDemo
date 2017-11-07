@@ -12,7 +12,7 @@ using iHeartMediaDemo.Models;
 namespace iHeartMediaDemo.Tests.Controllers
 {
     [TestClass]
-    public class ValuesControllerTest
+    public class StationControllerTest
     {
         [TestMethod]
         public void GetAll()
@@ -27,8 +27,8 @@ namespace iHeartMediaDemo.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(toTest.Id, 1);
-            Assert.AreEqual(toTest.Name.Trim(), "The Beat");
-            Assert.AreEqual(toTest.CallSign.Trim(), "102.3");
+            Assert.AreEqual(toTest.Name, "The Beat");
+            Assert.AreEqual(toTest.CallSign, "102.3");
         }
 
         [TestMethod]
@@ -75,8 +75,8 @@ namespace iHeartMediaDemo.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(toTest.Id, 1);
-            Assert.AreEqual(toTest.Name.Trim(), "The Beat");
-            Assert.AreEqual(toTest.CallSign.Trim(), "102.3");
+            Assert.AreEqual(toTest.Name, "The Beat");
+            Assert.AreEqual(toTest.CallSign, "102.3");
         }
 
         [TestMethod]
