@@ -8,7 +8,10 @@
 //------------------------------------------------------------------------------
 
 namespace iHeartMediaDemo.Models
-{    
+{
+    using System;
+    using System.Collections.Generic;
+    
     public partial class Station
     {
         public int Id { get; set; }

@@ -27,9 +27,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HdEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="CallSign" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="CallSign" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="StationDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Stations" EntityType="Self.Station" />

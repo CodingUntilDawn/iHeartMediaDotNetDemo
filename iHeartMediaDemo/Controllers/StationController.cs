@@ -17,17 +17,9 @@ namespace iHeartMediaDemo.Controllers
 
         [HttpGet]
         [Route("")]
-        public List<Station> Get()
+        public List<Station> GetAll()
         {
             return _stationService.GetAll();
-        }
-
-        [HttpPost]
-        [Route("add")]
-        public HttpResponseMessage AddStation([FromBody]Station station)
-        {
-            _stationService.AddStation(station);
-            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpGet]
@@ -51,11 +43,11 @@ namespace iHeartMediaDemo.Controllers
             return _stationService.GetByHdEnabled(hdEnabled);
         }
 
-        [HttpDelete]
-        [Route("deleteStation/{id}")]
-        public HttpResponseMessage DeleteStation(int id)
+        [HttpPost]
+        [Route("add")]
+        public HttpResponseMessage AddStation([FromBody]Station station)
         {
-            _stationService.DeleteStation(id);
+            _stationService.AddStation(station);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
@@ -64,6 +56,14 @@ namespace iHeartMediaDemo.Controllers
         public HttpResponseMessage UpdateStation([FromBody]Station station)
         {
             _stationService.UpdateStation(station);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpDelete]
+        [Route("deleteStation/{id}")]
+        public HttpResponseMessage DeleteStation(int id)
+        {
+            _stationService.DeleteStation(id);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

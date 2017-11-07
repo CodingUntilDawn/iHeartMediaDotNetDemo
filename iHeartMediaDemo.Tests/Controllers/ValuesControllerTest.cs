@@ -7,6 +7,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using iHeartMediaDemo;
 using iHeartMediaDemo.Controllers;
+using iHeartMediaDemo.Models;
 
 namespace iHeartMediaDemo.Tests.Controllers
 {
@@ -14,19 +15,20 @@ namespace iHeartMediaDemo.Tests.Controllers
     public class ValuesControllerTest
     {
         [TestMethod]
-        public void Get()
+        public void GetAll()
         {
             // Arrange
             StationController controller = new StationController();
 
             // Act
-            IEnumerable<string> result = controller.Get();
+            List<Station> result = controller.GetAll();
+            Station toTest = result.FirstOrDefault();
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual("value1", result.ElementAt(0));
-            Assert.AreEqual("value2", result.ElementAt(1));
+            Assert.AreEqual(toTest.Id, 1);
+            Assert.AreEqual(toTest.Name.Trim(), "The Beat");
+            Assert.AreEqual(toTest.CallSign.Trim(), "102.3");
         }
 
         [TestMethod]
@@ -36,46 +38,99 @@ namespace iHeartMediaDemo.Tests.Controllers
             StationController controller = new StationController();
 
             // Act
-            string result = controller.Get(5);
+            Station toTest = controller.GetById(1);
 
             // Assert
-            Assert.AreEqual("value", result);
+            Assert.AreEqual(toTest.Id, 1);
+            Assert.AreEqual(toTest.Name, "The Beat");
+            Assert.AreEqual(toTest.HdEnabled, true);
+            Assert.AreEqual(toTest.CallSign, "102.3");
         }
 
         [TestMethod]
-        public void Post()
+        public void GetByName()
         {
             // Arrange
             StationController controller = new StationController();
 
             // Act
-            controller.Post("value");
+            Station toTest = controller.GetByName("The Beat");
 
             // Assert
+            Assert.AreEqual(toTest.Id, 1);
+            Assert.AreEqual(toTest.Name, "The Beat");
+            Assert.AreEqual(toTest.CallSign, "102.3");
         }
 
         [TestMethod]
-        public void Put()
+        public void getHdEnabled()
         {
             // Arrange
             StationController controller = new StationController();
 
             // Act
-            controller.Put(5, "value");
+            List<Station> result = controller.GetByHdEnabled(true);
+            Station toTest = result.FirstOrDefault();
 
             // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(toTest.Id, 1);
+            Assert.AreEqual(toTest.Name.Trim(), "The Beat");
+            Assert.AreEqual(toTest.CallSign.Trim(), "102.3");
         }
 
         [TestMethod]
-        public void Delete()
+        public void AddStation()
+        {
+            // Arrange
+            StationController controller = new StationController();
+            Station toAdd = new Station
+            {
+                Id = 5,
+                Name = "The Zone",
+                HdEnabled = true,
+                CallSign = "1300"
+            };
+
+            // Act
+            HttpResponseMessage result = controller.AddStation(toAdd);
+
+            // Assert
+            Assert.IsTrue(result.IsSuccessStatusCode);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "This station already exists")]
+        public void AddStationWithException()
+        {
+            // Arrange
+            StationController controller = new StationController();
+            Station toAdd = new Station
+            {
+                Id = 5,
+                Name = "The Zone",
+                HdEnabled = true,
+                CallSign = "1300"
+            };
+
+            // Act
+            HttpResponseMessage result = controller.AddStation(toAdd);
+
+            // Assert
+            // There is no Assert since the ExpectedException acts as the Assert
+        }
+
+        [TestMethod]
+        public void DeleteStation()
         {
             // Arrange
             StationController controller = new StationController();
 
             // Act
-            controller.Delete(5);
+            HttpResponseMessage result = controller.DeleteStation(5);
 
             // Assert
-        }
+            Assert.IsTrue(result.IsSuccessStatusCode);
+        }        
     }
 }
