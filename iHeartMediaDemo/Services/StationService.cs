@@ -10,32 +10,64 @@ namespace iHeartMediaDemo.Services
     {
         private StationDbEntities _db = new StationDbEntities();
 
-        public List<Station> getAll()
+        public List<Station> GetAll()
         {
             return _db.Stations.ToList();
         }
 
-        public void addStation(Station station)
+        public void AddStation(Station station)
         {
             if(_db.Stations.FirstOrDefault(s => s.Id == station.Id) != null)
             {
                 throw new System.ArgumentException("This station already exists");
             }
-            else
-            {
-                _db.Stations.Add(station);
-                _db.SaveChanges();
-            }
+
+            _db.Stations.Add(station);
+            _db.SaveChanges();            
         }
 
-        public Station getStationById(int id)
+        public Station GetStationById(int id)
         {
             return _db.Stations.FirstOrDefault(s => s.Id == id);
         }
 
-        public Station getStationByName(String name)
+        public Station GetStationByName(String name)
         {
             return _db.Stations.FirstOrDefault(s => s.Name == name);
+        }
+
+        public List<Station> GetByHdEnabled(bool hdEnabled)
+        {
+            return _db.Stations.Where(s => s.HdEnabled == hdEnabled).ToList();
+        }
+
+        public void DeleteStation(int id)
+        {
+            Station toRemove = _db.Stations.FirstOrDefault(s => s.Id == id);
+
+            if (toRemove == null)
+            {
+                throw new System.ArgumentException("This stationId does not exist");
+            }
+
+            _db.Stations.Remove(toRemove);
+            _db.SaveChanges();
+        }
+
+        public void UpdateStation(Station station)
+        {
+            Station toUpdate = _db.Stations.FirstOrDefault(s => s.Id == station.Id);
+
+            if (toUpdate == null)
+            {
+                throw new System.ArgumentException("This stationId does not exist");
+            }
+
+            toUpdate.Name = station.Name;
+            toUpdate.HdEnabled = station.HdEnabled;
+            toUpdate.CallSign = station.CallSign;
+
+            _db.SaveChanges();
         }
     }
 }

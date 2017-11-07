@@ -17,41 +17,54 @@ namespace iHeartMediaDemo.Controllers
 
         [HttpGet]
         [Route("")]
-        public List<Station> get()
+        public List<Station> Get()
         {
-            return _stationService.getAll();
+            return _stationService.GetAll();
         }
 
         [HttpPost]
         [Route("add")]
-        public HttpResponseMessage addStation([FromBody]Station station)
+        public HttpResponseMessage AddStation([FromBody]Station station)
         {
-            _stationService.addStation(station);
+            _stationService.AddStation(station);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public Station getById(int id)
+        public Station GetById(int id)
         {
-            return _stationService.getStationById(id);
+            return _stationService.GetStationById(id);
         }
 
         [HttpGet]
         [Route("getByName/{name}")]
-        public Station getByName(String Name)
+        public Station GetByName(String Name)
         {
-            return _stationService.getStationByName(Name);
+            return _stationService.GetStationByName(Name);
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        [HttpGet]
+        [Route("getByHdEnabled/{hdEnabled}")]
+        public List<Station> GetByHdEnabled(bool hdEnabled)
         {
+            return _stationService.GetByHdEnabled(hdEnabled);
         }
 
-        // DELETE api/values/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("deleteStation/{id}")]
+        public HttpResponseMessage DeleteStation(int id)
         {
+            _stationService.DeleteStation(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("updateStation/")]
+        public HttpResponseMessage UpdateStation([FromBody]Station station)
+        {
+            _stationService.UpdateStation(station);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
